@@ -1,9 +1,10 @@
 body{
-    background: rgb(123,245,214);
+    background: rgb(32, 88, 74);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
-    background: linear-gradient(150deg, rgba(123,245,214,0.9934348739495799) 25%, rgba(42,167,221,1) 54%, rgba(52, 175, 144, 0.954) 75%, rgba(0,221,255,1) 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(150deg, rgba(64, 146, 126, 0.993) 25%, rgba(42,167,221,1) 54%, rgba(52, 175, 144, 0.954) 75%, rgba(0,221,255,1) 100%);
 }
 
 .h1{
@@ -13,4 +14,70 @@ body{
     color: aliceblue;
     margin-top: 40px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.row:first{
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    margin: auto;
+    color: white;
+    margin-top: 40px;
+}
+
+.row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.item{
+    background-color: rgba(197, 199, 199,0.4);
+    padding: 30px;
+    border-radius: 20px;
+    width: 30%;
+    height:250px;
+    margin-top: 50px;
+    color: white;
+    line-height: 30px;
+    justify-content: space-between;
+}
+
+hr{
+    width: 100%;
+    border-top: none;
+}
+
+.search-input{
+    width: 80%;
+    height: 60px;
+    margin: 20px auto 20px 160px;
+    border-radius: 10px;
+    border: 1px solid white;
+    font-size: 20px;
+    outline: none;
+}
+
+.search-btn{
+    width: 20%;
+    height: 60px;
+    z-index: 10;
+    margin-top: 20px;
+    margin-left: -60px;
+}
+
+.search-btn img{
+    width: 40px;
+    height: 40px;
+}
+
+.row2{
+    display: flex;
+    align-items: center;
 }
