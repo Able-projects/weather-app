@@ -1,8 +1,9 @@
-import {GET_INFO, GET_ERROR} from '../actions/types'
+import {GET_INFO, GET_ERROR,GET_FORECAST} from '../actions/types'
 
 const initialState = {
     cityInfo:{},
-    errorInfo:{}
+    errorInfo:{},
+    forecastInfo:{}
 }
 
 export default function (state=initialState,action){
@@ -16,6 +17,11 @@ export default function (state=initialState,action){
             return{
                 ...state,
                 errorInfo: action.payload.data
+            }
+        case GET_FORECAST:
+            return{
+                ...state,
+                forecastInfo: action.payload.data
             }
         default:
             return state;
