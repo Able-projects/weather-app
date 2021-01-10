@@ -2,11 +2,12 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "author":"Diana",
+  "author": "Diana",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.10.1",
     "axios": "^0.21.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -42,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://api.openweathermap.org/data/2.5/"
+  "proxy": "http://api.openweathermap.org/data/2.5/"
 }

@@ -1,16 +1,75 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import connect from 'react-redux/es/connect/connect'
-import {getWeather,getWeatherForecast} from '../store/actions/weatherActions'
+import {getWeather,getWeatherForecast,getCurrentUser} from '../store/actions/weatherActions'
+import { Modal, Button ,Form, Input} from 'antd';
+import {signup} from '../store/actions/weatherActions'
+
 function Main(props){
-    
-    const {cityInfo,forecastInfo} = props.weatherReducer
+    const [visible,setVisible] = useState(false)
+
+    const {cityInfo,forecastInfo,errorInfo,userInfo} = props.weatherReducer
     const [request,setRequest] = useState('')
     let send = () => {
         props.getWeather(request);
         props.getWeatherForecast(request);
     }
+    useEffect(() => {
+        props.getCurrentUser()
+    }
+        ,[]);
+  
+
+    const showModal = () => {
+        setVisible(true);
+      };
+    const closeModal = () => {
+    setVisible(false);
+    };
+    const  onFinish = (values) => {
+        props.signup(values)
+    };
     return(
         <div>
+            <Button type="primary" onClick={showModal}>
+                Войти
+            </Button>
+            <p className='p-username'>{userInfo &&  userInfo.username ? 'Username: ' + userInfo.username: ''}</p>
+            <Modal
+                title="Title"
+                visible={visible}
+                onCancel={closeModal}
+                footer={[
+                  ]}
+            >
+            <Form
+            name="basic"
+            onFinish={onFinish}
+            >
+            <Form.Item
+                label="Username"
+                name="usernameOrEmail"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                label="Password"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+                <Input.Password />
+            </Form.Item>
+
+            <Form.Item>
+                <Button type="primary" htmlType="submit">
+                Войти
+                </Button>
+            </Form.Item>
+            <p>{errorInfo && errorInfo.password ? errorInfo.password : errorInfo.user ? errorInfo.user : ''}</p>
+            </Form>
+
+            </Modal>
             <h1 className='h1'>Поиск</h1>
             <div className='row2'>
                 <input type='text' value={request} onChange={(e)=>setRequest(e.target.value)} placeholder='название города' className='search-input'></input>
@@ -80,4 +139,4 @@ const mapStateToProps = (state) => ({
     weatherReducer:state.weatherReducer
 });
 
-export default connect(mapStateToProps, {getWeather,getWeatherForecast})(Main);
+export default connect(mapStateToProps, {getCurrentUser,signup,getWeather,getWeatherForecast})(Main);
