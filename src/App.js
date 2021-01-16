@@ -7,7 +7,7 @@ import Login from './components/auth'
 import 'antd/dist/antd.css';
 import setAuthToken from './store/setAuthToken'
 //import jwt_decode from "jwt-decode"
-
+import CrudCompany  from './components/crudCompany'
 if (localStorage.token) {
   setAuthToken(localStorage.token);
   //const decoded = jwt_decode(localStorage.token);
@@ -24,6 +24,7 @@ function App() {
         <div className="App">
           <Route exact path='/' component={Main}/>
           <Route exact path='/auth' component={Login}/>
+          <Route exact path='/company' component={CrudCompany}/>
         </div>
       </BrowserRouter>
     </Provider>

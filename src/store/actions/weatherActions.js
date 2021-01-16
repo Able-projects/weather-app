@@ -18,14 +18,16 @@ export const getWeather = (name) => dispatch => {
     })
 }
 
-export const signup = (data) => dispatch => {
+export const signup = (data,closeModal) => dispatch => {
     axios.post('http://localhost:5520/api/auth/signin',data)
     .then(response => {
         const {auth,token} = response.data
         localStorage.setItem('auth',auth)
         localStorage.setItem('token',token)
+        closeModal()
         setAuthToken(token)
         dispatch(getCurrentUser())
+        window.location.href = '/company'
     }).catch(err =>{
         return dispatch({
             type:GET_ERROR,
@@ -33,6 +35,14 @@ export const signup = (data) => dispatch => {
         })
     })
 }
+
+export const logout = () => dispatch => {
+        localStorage.removeItem('auth')
+        localStorage.removeItem('token')
+        setAuthToken(false)  
+        window.location.href = '/'
+}
+
 
 export const getCurrentUser = () => dispatch => {
     axios.get('http://localhost:5520/api/auth/current')

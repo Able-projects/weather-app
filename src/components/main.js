@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import connect from 'react-redux/es/connect/connect'
 import {getWeather,getWeatherForecast,getCurrentUser} from '../store/actions/weatherActions'
-import { Modal, Button ,Form, Input} from 'antd';
-import {signup} from '../store/actions/weatherActions'
+import { Modal, Button ,Form, Input, Space} from 'antd';
+import {signup,logout} from '../store/actions/weatherActions'
 
 function Main(props){
     const [visible,setVisible] = useState(false)
+    const [visible2,setVisible2] = useState(false)
 
     const {cityInfo,forecastInfo,errorInfo,userInfo} = props.weatherReducer
     const [request,setRequest] = useState('')
@@ -25,14 +26,75 @@ function Main(props){
     const closeModal = () => {
     setVisible(false);
     };
+    const showModal2 = () => {
+        setVisible2(true);
+      };
+    const closeModal2 = () => {
+    setVisible2(false);
+    };
     const  onFinish = (values) => {
-        props.signup(values)
+        props.signup(values,closeModal)
     };
     return(
         <div>
+            {userInfo && userInfo.username ?
+             <Button type="primary" onClick={() => props.logout()}>
+             Выйти
+             </Button>:
             <Button type="primary" onClick={showModal}>
                 Войти
             </Button>
+            }  
+            <Button type="primary" onClick={showModal2}>
+                Регистрация
+            </Button>
+           
+            <Modal
+                title="Title"
+                visible={visible2}
+                onCancel={closeModal2}
+                footer={[
+                  ]}
+            >
+            <Form
+            name="basic"
+            onFinish={onFinish}
+            >
+            <Form.Item
+                label="Username"
+                name="usernameOrEmail"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+                label="Пароль"
+                name="password"
+                rules={[{ required: true, message: 'Длина пароля не должна быть меньше 6 символов',min:6 }]}
+            >
+                <Input.Password />
+            </Form.Item>
+            <Form.Item label="Повтарите пароль" hasFeedback name="password2" rules={[{ required: true, message: 'Длина пароля не должна быть меньше 6 символов',min:6},
+                         ({ getFieldValue }) => ({
+                            validator(rule, value) {
+                              if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject('Пароли не одинаковые!');
+                            },
+                          }),]}>
+                        <Input.Password placeholder='Подтвердите пароль' />
+                    </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">
+                Войти
+                </Button>
+            </Form.Item>
+            <p>{errorInfo && errorInfo.password ? errorInfo.password : errorInfo.user ? errorInfo.user : ''}</p>
+            </Form>
+
+            </Modal>
             <p className='p-username'>{userInfo &&  userInfo.username ? 'Username: ' + userInfo.username: ''}</p>
             <Modal
                 title="Title"
@@ -139,4 +201,4 @@ const mapStateToProps = (state) => ({
     weatherReducer:state.weatherReducer
 });
 
-export default connect(mapStateToProps, {getCurrentUser,signup,getWeather,getWeatherForecast})(Main);
+export default connect(mapStateToProps, {logout,getCurrentUser,signup,getWeather,getWeatherForecast})(Main);
