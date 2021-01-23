@@ -1,5 +1,7 @@
-import {GET_COMPANY_LIST,GET_COMPANY_TYPES,GET_COMPANY_FIELDS,GET_ERROR} from './types'
+import {GET_COMPANY_LIST,GET_COMPANY_TYPES,GET_COMPANY_FIELDS,GET_ERROR,GET_MANAGER_LIST} from './types'
 import axios from 'axios/index'
+
+//Нужно заменить http://localhost:5520 на http://195.93.152.99:5520
 
 export const getCompanyFields = () => dispatch => {
     axios.get('http://localhost:5520/api/companyFields/')
@@ -51,6 +53,46 @@ export const addCompany = (data,closeModal) => dispatch => {
     .then(response => {
         dispatch(getCompanyList())
         closeModal()
+    }).catch(err =>{
+        return dispatch({
+            type:GET_ERROR,
+            payload:err.response
+        })
+    })
+}
+
+export const addManager = (data,closeModal,id) => dispatch => {
+    axios.post('http://localhost:5520/api/managers/',data)
+    .then(response => {
+        dispatch(getManagerList(id))
+        closeModal()
+    }).catch(err =>{
+        return dispatch({
+            type:GET_ERROR,
+            payload:err.response
+        })
+    })
+}
+
+export const deleteCompany = (id) => dispatch => {
+    axios.delete('http://localhost:5520/api/companies/'+id)
+    .then(response => {
+        dispatch(getCompanyList())
+    }).catch(err =>{
+        return dispatch({
+            type:GET_ERROR,
+            payload:err.response
+        })
+    })
+}
+
+export const getManagerList = (id) => dispatch => {
+    axios.get('http://localhost:5520/api/managers/company/' + id)
+    .then(response => {
+        return dispatch ({
+            type:GET_MANAGER_LIST,
+            payload:response
+        })
     }).catch(err =>{
         return dispatch({
             type:GET_ERROR,

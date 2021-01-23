@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import connect from 'react-redux/es/connect/connect'
+import {Link} from 'react-router-dom'
 import {logout} from '../store/actions/weatherActions'
 import { Modal, Button ,Form, Input, Select,Table} from 'antd';
-import {getCompanyFields,getCompanyTypes,getCompanyList,addCompany} from '../store/actions/companyActions'
+import {getCompanyFields,getCompanyTypes,getCompanyList,addCompany,deleteCompany} from '../store/actions/companyActions'
 import Column from 'antd/lib/table/Column';
 function CrudCompany(props){
     const [visible,setVisible] = useState(false)
@@ -52,7 +53,7 @@ function CrudCompany(props){
             </Form.Item>
 
             <Form.Item
-                label="Описаний"
+                label="Описаниe"
                 name="description"
                 rules={[{ required: true, message: 'Please input your company title!' }]}
             >
@@ -89,15 +90,19 @@ function CrudCompany(props){
             </Modal>
 
             <Table dataSource={companyList?.rows} >
-                <Column dataIndex="title" key='title' title='Название'></Column>
+                <Column key='title' title='Название' render={(record) => (
+                    <Link to={'/company/'+record.id}>{record.title}</Link>
+                )} ></Column>
                 <Column dataIndex="description" key='description' title="Описание"></Column>
+                <Column key='description' render={(record) => (
+                    <Button onClick={() => props.deleteCompany(record.id)}>Удалить</Button>
+                )} ></Column>
             </Table>
         </div>
     )
 }
-
 const mapStateToProps = (state) => ({
     companyReducer:state.companyReducer
 });
 
-export default connect(mapStateToProps, {logout,getCompanyFields,getCompanyTypes,getCompanyList,addCompany})(CrudCompany);
+export default connect(mapStateToProps, {deleteCompany,logout,getCompanyFields,getCompanyTypes,getCompanyList,addCompany})(CrudCompany);

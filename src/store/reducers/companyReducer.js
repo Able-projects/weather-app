@@ -1,11 +1,12 @@
-import {GET_COMPANY_LIST,GET_COMPANY_TYPES,GET_COMPANY_FIELDS} from '../actions/types'
+import {GET_COMPANY_LIST,GET_COMPANY_TYPES,GET_COMPANY_FIELDS,GET_MANAGER_LIST} from '../actions/types'
 
 
 
 const initialState = {
     companyTypes:[],
     companyFields:[],
-    companyList:[]
+    companyList:[],
+    managers:[]
 }
 
 export default function (state=initialState,action){
@@ -24,6 +25,11 @@ export default function (state=initialState,action){
             return{
                 ...state,
                 companyFields: action.payload.data
+            }
+        case GET_MANAGER_LIST:
+            return{
+                ...state,
+                managers: action.payload.data
             }
         default:
             return state;
